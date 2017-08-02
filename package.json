@@ -1,0 +1,57 @@
+{
+  "name": "@condenast/core-gateway-auth",
+  "version": "0.0.0",
+  "description": "Authentication service for API Gateway",
+  "main": "index.js",
+  "config": {
+    "host": "localhost",
+    "port": 8080
+  },
+  "scripts": {
+    "test": "nyc -s mocha",
+    "posttest": "npm run -s lint && npm run -s view-coverage && npm run -s html-coverage-report && npm run -s check-coverage",
+    "mocha": "mocha",
+    "lint": "eslint .",
+    "check-coverage": "nyc check-coverage --lines 100 --functions 100 --branches 100",
+    "html-coverage-report": "nyc report --reporter=html",
+    "view-coverage": "nyc report",
+    "browse-coverage": "open coverage/index.html",
+    "start": "node index.js"
+  },
+  "bin": {
+    "core-gateway-auth": "./index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/CondeNast-Copilot/core-gateway-auth.git"
+  },
+  "author": "",
+  "license": "Copyright (c) 2013 Condé Nast. All rights reserved.",
+  "bugs": {
+    "url": "https://github.com/CondeNast-Copilot/core-gateway-auth/issues"
+  },
+  "homepage": "https://github.com/CondeNast-Copilot/core-gateway-auth#readme",
+  "dependencies": {
+    "amazon-cognito-identity-js": "1.18.0",
+    "aws-sdk": "2.63.0",
+    "bunyan": "1.8.10",
+    "hapi": "16.4.1",
+    "hapi-bunyan": "0.7.0",
+    "jsonwebtoken": "7.4.1",
+    "jwk-to-pem": "1.2.6",
+    "request": "2.81.0",
+    "request-promise-native": "1.0.4",
+    "yargs": "8.0.2"
+  },
+  "devDependencies": {
+    "@condenast/eslint-config-condenast": "0.12.0",
+    "@condenast/platform-styleguide": "0.0.1",
+    "chai": "4.0.2",
+    "chai-as-promised": "7.0.0",
+    "eslint": "3.19.0",
+    "eslint-plugin-chai-expect": "1.1.1",
+    "eslint-plugin-mocha": "4.11.0",
+    "mocha": "3.4.2",
+    "nyc": "11.0.3"
+  }
+}
