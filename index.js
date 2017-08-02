@@ -8,12 +8,6 @@ const fetchPublicKeys = require('./lib/fetch-public-keys');
 
 // Support: "node index.js" execution entry point
 if (require.main === module) {
-  /* istanbul ignore next */
-  process.on('unhandledRejection', (err) => {
-    logger.fatal({ err }, `Uncaught rejection: ${err.message}`);
-    process.exit(1);
-  });
-
   const parseCliArgs = require('./lib/parse-cli-args');
   const serverOptions = parseCliArgs();
   const logger = createLogger({ level: serverOptions.logLevel });
@@ -31,7 +25,7 @@ if (require.main === module) {
       return server.start().then(() => server);
     })
     .then(server => {
-      logger.info(`Server running at ${server.info.uri}`)
+      logger.info(`Server running at ${server.info.uri}`);
     })
     .catch(
       /* istanbul ignore next */
@@ -45,6 +39,11 @@ if (require.main === module) {
         }
       }
     );
+  /* istanbul ignore next */
+  process.on('unhandledRejection', (err) => {
+    logger.fatal({ err }, `Uncaught rejection: ${err.message}`);
+    process.exit(1);
+  });
 }
 
 /**
