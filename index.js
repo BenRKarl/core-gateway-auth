@@ -13,12 +13,13 @@ if (require.main === module) {
   const logger = createLogger({ level: serverOptions.logLevel });
   const { cognito } = serverOptions;
 
-  const cognitoHost = `https://cognito-idp.${cognito.region}.amazonaws.com`;
-  const poolUrl = `${cognitoHost}/${cognito.user_pool_id}`;
-  const keyUrl = `${poolUrl}/.well-known/jwks.json`;
-  fetchPublicKeys(keyUrl)
+  cognito.host = `cognito-idp.${cognito.region}.amazonaws.com`;
+  cognito.poolUrl = `https://${cognito.host}/${cognito.user_pool_id}`;
+  cognito.keyUrl = `${cognito.poolUrl}/.well-known/jwks.json`;
+
+  fetchPublicKeys(cognito.keyUrl)
     .then(publicKeys => {
-      logger.info(`Downloaded ${publicKeys.size} public keys from ${keyUrl}`);
+      logger.info(`Downloaded ${publicKeys.size} public keys from ${cognito.keyUrl}`);
       return createServer(publicKeys, Object.assign(serverOptions, { logger }));
     })
     .then(server => {
@@ -76,7 +77,11 @@ function createServer(publicKeys, options = {}) {
   return server.register([bunyanPlugin]).then(() => {
     // load routes
     // POST /authenticate
-    server.route(require('./lib/routes/authenticate')(cognito, publicKeys));
+    server.route(require('./lib/routes/authenticate')(cognito));
+    // POST /token/refresh
+    server.route(require('./lib/routes/token-refresh')(cognito));
+    // POST /token/validate
+    server.route(require('./lib/routes/token-validate')(cognito, publicKeys));
 
     return server;
   });
