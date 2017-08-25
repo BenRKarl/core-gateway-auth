@@ -67,8 +67,8 @@ function createServer(publicKeys, options = {}) {
   assert(cognito.client_id, 'cognito.client_id option required');
 
   const server = new hapi.Server({ debug: false });
-  server.connection({ host, port });
-  // server.connection({ host, port, routes: {cors: true} });  // CORS temporarily for testing
+  //server.connection({ host, port });
+  server.connection({ host, port, routes: {cors: true} });  // CORS temporarily for testing
 
   const bunyanPlugin = {
     register: hapiBunyan,
