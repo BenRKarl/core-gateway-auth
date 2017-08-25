@@ -68,6 +68,7 @@ function createServer(publicKeys, options = {}) {
 
   const server = new hapi.Server({ debug: false });
   server.connection({ host, port });
+  // server.connection({ host, port, routes: {cors: true} });  // CORS temporarily for testing
 
   const bunyanPlugin = {
     register: hapiBunyan,
@@ -82,7 +83,9 @@ function createServer(publicKeys, options = {}) {
     server.route(require('./lib/routes/token-refresh')(cognito));
     // POST /token/validate
     server.route(require('./lib/routes/token-validate')(cognito, publicKeys));
-
+    // GET /ping required for Departures hosting
+    server.route(require('./lib/routes/ping')());
+    
     return server;
   });
 }
