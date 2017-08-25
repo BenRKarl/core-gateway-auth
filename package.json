@@ -5,7 +5,10 @@
   "main": "index.js",
   "config": {
     "host": "0.0.0.0",
-    "port": 8081
+    "port": 8081,
+    "cognito_region": "us-east-1",
+    "cognito_user_pool_id": "us-east-1_OwUPJrUEO",
+    "cognito_client_id": "3ilg70aqu2jfnn6etn5gcu0uru"
   },
   "scripts": {
     "test": "nyc -s mocha",
