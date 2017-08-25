@@ -83,7 +83,9 @@ function createServer(publicKeys, options = {}) {
     server.route(require('./lib/routes/token-refresh')(cognito));
     // POST /token/validate
     server.route(require('./lib/routes/token-validate')(cognito, publicKeys));
-
+    // GET /ping required for Departures hosting
+    server.route(require('./lib/routes/ping')());
+    
     return server;
   });
 }
